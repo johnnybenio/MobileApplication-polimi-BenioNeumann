@@ -1,0 +1,26 @@
+import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+
+const Me = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 10 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Alex & John's </Text>
+          <Ionicons name='pricetag-outline' size={20} />
+        </View>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+export default Me
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+
+  }
+});
