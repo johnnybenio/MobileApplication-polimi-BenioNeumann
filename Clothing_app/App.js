@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigationBar from './navigation/BottomNavigationBar'
@@ -11,12 +10,15 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Botttom Navigation Bar"
+          name="Bottom Navigation Bar"
           component={BottomNavigationBar}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+          }}
         />
+
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer >
   );
 }
 

@@ -24,7 +24,11 @@ const Welcome = () => {
 
       </View>
       <View style={{ overflow: 'hidden' }}>
-        <RollingText durationMsPerWidth={10} style={{ fontStyle: "italic", fontSize: 40, color: "darkgreen", fontWeight: "bold", marginTop: 10 }}>
+        <RollingText durationMsPerWidth={10} force={"true"} style={{
+          fontStyle: "italic", fontSize: 40,
+          color: "darkgreen", fontWeight: "bold",
+          marginTop: 10, textAlign: "center"
+        }}>
           {"Welcome to the clothing shop"}
         </RollingText>
       </View>

@@ -4,8 +4,8 @@ import { SliderBox } from 'react-native-image-slider-box'
 
 const Banner = () => {
     const images = [
-        require('../../assets/images/Hugo_Sweatshirt.jpg'),
-        require('../../assets/images/Gant_Sweatshirt.jpg'),
+        require('../../assets/images/Welcome_image1.jpg'),
+        require('../../assets/images/Welcome_image2.jpg'),
     ]
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>

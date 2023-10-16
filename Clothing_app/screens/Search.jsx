@@ -3,7 +3,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons'
-
 import React from 'react'
 
 const Search = () => {
@@ -23,7 +22,6 @@ const Search = () => {
         marginVertical: 16,
         marginHorizontal: 10
       }}>
-
         <TouchableOpacity>
           <Feather
             name='search'
@@ -33,14 +31,12 @@ const Search = () => {
               color: "black",
             }} />
         </TouchableOpacity>
-
         <View style={{
           flex: 1,
           backgroundColor: "lightgray",
           marginRight: 20,
           borderRadius: 20
         }}>
-
           <TextInput
             style={{
               fontWeight: "bold",
@@ -54,18 +50,17 @@ const Search = () => {
             onPressIn={() => { }}
             placeholder='Search for products'
           />
-
         </View>
       </View>
     </SafeAreaView>
   )
 }
 
-export default Search
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   }
 });
+
+export default Search
+

@@ -4,11 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { ScrollView } from 'react-native'
 import Welcome from '../components/home/Welcome'
-
-const styles = StyleSheet.create({
-  container: {
-  },
-});
+import ProductAligner from '../components/products/ProductAligner'
 
 const Home = () => {
   return (
@@ -21,6 +17,7 @@ const Home = () => {
       </View>
       <ScrollView>
         <Welcome />
+        <ProductAligner />
       </ScrollView>
     </SafeAreaView>
   )

@@ -3,16 +3,18 @@ import { Ionicons } from "@expo/vector-icons";
 import React from 'react';
 import { Home, Search, Cart, Favorite, Me } from '../screens/index'
 import { View, Text, StyleSheet } from 'react-native';
-
-const Bar = createBottomTabNavigator();
+import { BlurView } from 'expo-blur';
 
 const barOptions = {
-    tabBarShowLabel: false,
+    tabBarShowLabel: true,
     tabBarHideOnKeyboard: true,
     headerShown: false,
     tabBarStyle: {
-        height: 90
-    }
+        height: 70
+    },
+    tabBarBackground: () => (
+        <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
+    ),
 }
 
 const styles = StyleSheet.create({
@@ -31,6 +33,7 @@ const styles = StyleSheet.create({
     },
 });
 
+const Bar = createBottomTabNavigator();
 
 /* Create navigation bar, if component is selected, make it focused icon */
 const BottomNavigationBar = () => {
@@ -75,7 +78,7 @@ const BottomNavigationBar = () => {
             <Bar.Screen name="Favorite" component={Favorite} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons
-                        name={focused ? "heart-outline" : "heart-outline"}
+                        name={focused ? "heart" : "heart-outline"}
                         size={26}
                         color={focused ? 'black' : 'gray'}
                     />
