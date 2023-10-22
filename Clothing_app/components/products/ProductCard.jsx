@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
-
+import { useNavigation } from '@react-navigation/native'
 const ProductCard = () => {
+
+  const navigation = useNavigation();
 
   // To toggle the put product in favorite function
   const [isFavorite, setIsFavorite] = useState(false);
@@ -13,7 +15,7 @@ const ProductCard = () => {
   };
 
   return (
-    <TouchableOpacity onPress={() => { }}>
+    <TouchableOpacity onPress={() => navigation.navigate("ProductDetails")}>
       <View style={styles.productCardContainer}>
         <TouchableOpacity onPress={toggleFavorite}>
           <Ionicons

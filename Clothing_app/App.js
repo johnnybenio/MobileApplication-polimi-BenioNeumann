@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigationBar from './navigation/BottomNavigationBar'
+import { ProductDetails } from './screens';
 
 const Stack = createNativeStackNavigator() // Used to manage our navigation in the app
 
@@ -16,6 +17,16 @@ export default function App() {
             headerShown: false,
           }}
         />
+
+        <Stack.Screen
+          name="ProductDetails"
+          component={ProductDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        
 
       </Stack.Navigator>
     </NavigationContainer >
