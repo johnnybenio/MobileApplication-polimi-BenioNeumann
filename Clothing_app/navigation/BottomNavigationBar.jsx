@@ -10,7 +10,7 @@ const barOptions = {
     tabBarHideOnKeyboard: true,
     headerShown: false,
     tabBarStyle: {
-        height: 70
+        height: 7
     },
     tabBarBackground: () => (
         <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
