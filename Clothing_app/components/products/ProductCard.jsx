@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 
 const ProductCard = () => {
+
   // To toggle the put product in favorite function
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -19,7 +20,6 @@ const ProductCard = () => {
             name={isFavorite ? "heart-sharp" : "heart-outline"}
             style={styles.heartIconContainer}
             size={25} color={"red"}
-
           />
         </TouchableOpacity>
 

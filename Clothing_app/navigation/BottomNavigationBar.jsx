@@ -4,9 +4,14 @@ import React from 'react';
 import { Home, Search, Cart, Favorite, Me } from '../screens/index'
 import { View, Text, StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { Platform } from 'react-native';
 
 const barOptions = {
     tabBarShowLabel: true,
+    tabBarLabelStyle: {
+        ...(Platform.OS === 'web' && { marginLeft: 25 }),
+        color: 'black'
+    },
     tabBarHideOnKeyboard: true,
     headerShown: false,
     tabBarStyle: {
