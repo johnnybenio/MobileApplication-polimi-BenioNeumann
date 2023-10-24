@@ -33,5 +33,5 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
-App2.js
-dimensions.js
+increment.txt
+.env

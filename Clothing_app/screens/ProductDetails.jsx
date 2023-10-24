@@ -3,20 +3,28 @@ import React from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Platform } from 'react-native'
 import { useState } from 'react'
+import { useRoute } from '@react-navigation/native'
+
 const ProductDetails = ({ navigation }) => {
 
     // To toggle the put product in favorite function
     const [isFavorite, setIsFavorite] = useState(false);
-    const [isAdded, setIsAddedToCart] = useState(false);
+    const [isAddedFromImage, setIsAddedToCartFromImage] = useState(false);
+    const [isAddedFromButtom, setIsAddedToCartFromButtom] = useState(false);
+
+    const route = useRoute();
+    const { product } = route.params;
 
     const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
-        console.log('isFavorite:', isFavorite); // Add this line for debugging
     };
 
-    const toggleAddedToCart = () => {
-        setIsAddedToCart(!isAdded);
-        console.log('isAdded:', isAdded); // Add this line for debugging
+    const toggleAddedToCartImage = () => {
+        setIsAddedToCartFromImage(!isAddedFromImage);
+    };
+
+    const toggleAddedToCartFromButton = () => {
+        setIsAddedToCartFromButtom(!isAddedFromButtom);
     };
 
     return (
@@ -38,7 +46,7 @@ const ProductDetails = ({ navigation }) => {
 
             {Platform.OS === 'web' ? (
                 <Image
-                    source={require('../assets/images/Gant_Sweatshirt.jpg')}
+                    source={{ uri: product.imageURL }}
                     style={{
                         aspectRatio: 1,
                         position: "absolute",
@@ -82,30 +90,28 @@ const ProductDetails = ({ navigation }) => {
                         alignItems: "center",
                         width: "85%",
                         top: 500,
-
-
                     }} >
-                    {Platform.OS === 'web' ? (
-                        <View style={{ marginLeft: '70%', flexDirection: "row", bottom: 400 }}>
-                            <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
-                                <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={toggleFavorite} >
-                                <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
-                            </TouchableOpacity>
-                        </View>
-
-                    ) : (
-                        <View style={{ marginLeft: "80%", flexDirection: "row", top: 161 }}>
-                            <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
-                                <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={toggleFavorite} >
-                                <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
-                            </TouchableOpacity>
-                        </View>
-
-                    )}
+                    {Platform.OS === 'web' ?
+                        (
+                            <View style={{ marginLeft: '70%', flexDirection: "row", bottom: 400 }}>
+                                <TouchableOpacity onPress={toggleAddedToCartImage} style={{ marginRight: 10 }}>
+                                    <Ionicons name={isAddedFromImage ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={toggleFavorite} >
+                                    <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
+                                </TouchableOpacity>
+                            </View>
+                        ) :
+                        (
+                            <View style={{ marginLeft: "80%", flexDirection: "row", top: 161 }}>
+                                <TouchableOpacity onPress={toggleAddedToCartImage} style={{ marginRight: 10 }}>
+                                    <Ionicons name={isAddedFromImage ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={toggleFavorite} >
+                                    <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
+                                </TouchableOpacity>
+                            </View>
+                        )}
                 </View>
                 <View style={{
                     marginHorizontal: 16,
@@ -122,35 +128,38 @@ const ProductDetails = ({ navigation }) => {
                             <MaterialCommunityIcons name='truck-fast' size={20} />
                             <Text> Fast Delivery</Text>
                         </View>
-                        <Text style={{ fontWeight: "bold", fontSize: 30 }} >Product 15.99$</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 30 }} >Product {product.price}</Text>
                     </View>
                 </View>
                 <View style={{ marginTop: Platform.OS === 'web' ? 600 : 600 }}>
                     <View style={{ marginHorizontal: 16 }}>
                         <Text style={{ fontWeight: "bold" }}>Product Description</Text>
                         <Text>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis ea facere ipsum. Deleniti, praesentium repudiandae. Dolores distinctio molestias dignissimos, corrupti, aliquid nihil nulla tempore, repellat vitae hic quasi quaerat? Nemo!
+                            {product.description}
                         </Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%" }}>
-                    <TouchableOpacity onPress={() => { }}
+                    <TouchableOpacity onPress={() => {
+                        toggleAddedToCartFromButton()
+                    }}
                         style=
                         {Platform.OS === 'web'
                             ? { flexDirection: "row", backgroundColor: "black", width: "20%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }
                             : { flexDirection: "row", backgroundColor: "black", width: "55%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }}>
 
-                        <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }} >ADD TO CART</Text>
-                        {Platform.OS === 'web'
-                            ? <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} style={{ marginLeft: "20%" }} />
-                            : <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} style={{ marginLeft: "5%", bottom: "2%" }} />
-                        }
+                        <Text style={Platform.OS === 'web'
+                            ? { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 30 }
+                            : { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 12 }}> Add To Cart </Text>
 
+                        {Platform.OS === 'web'
+                            ? <Ionicons name={isAddedFromButtom ? 'cart-sharp' : "cart-outline"} size={30} color={"white"} style={{ marginLeft: "2%" }} />
+                            : <Ionicons name={isAddedFromButtom ? 'cart-sharp' : "cart-outline"} size={30} color={"white"} style={{ marginLeft: "3%", bottom: "2%" }} />
+                        }
                     </TouchableOpacity>
                 </View>
             </View>
         </ScrollView >
-
     )
 }
 
