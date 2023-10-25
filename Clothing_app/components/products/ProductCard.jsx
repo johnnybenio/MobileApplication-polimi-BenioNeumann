@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
             {product.name}
           </Text>
           <Text style={{ fontWeight: "600", fontSize: 14, color: "gray", marginLeft: 20 }} numberOfLines={1}>
-            brand
+            brand1
           </Text>
           <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>
             price
