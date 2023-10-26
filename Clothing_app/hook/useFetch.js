@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import { MY_IP } from '../config';
 
 const useFetch = () => {
     const [data, setData] = useState([]);
@@ -11,7 +12,7 @@ const useFetch = () => {
         setIsLoading(true)
 
         try {
-            const response = await axios.get('http://192.168.1.8:5001/api/products/')
+            const response = await axios.get(`http://${MY_IP}:5001/api/products/`)
             setData(response.data)
             setIsLoading(false)
         } catch (err) {
