@@ -60,7 +60,7 @@ const ProductDetails = ({ navigation }) => {
                 />
             ) : (
                 <Image
-                    source={require('../assets/images/Gant_Sweatshirt.jpg')}
+                    source={{uri: product.imageURL}}
                     style={{
                         aspectRatio: 1,
                         position: "absolute",
