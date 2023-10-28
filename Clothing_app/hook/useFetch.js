@@ -11,7 +11,7 @@ const useFetch = () => {
         setIsLoading(true)
 
         try {
-            const response = await axios.get('https://98fd-37-119-209-132.ngrok-free.app/api/products', {
+            const response = await axios.get('https://190b-37-119-209-132.ngrok-free.app/api/products', {
                 headers: {
                     'ngrok-skip-browser-warning': 'true'
                 }

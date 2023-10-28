@@ -12,7 +12,6 @@ const ProductCard = ({ product }) => {
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
-    // console.log('isFavorite:', isFavorite); // Add this line for debugging
   };
 
   return (
@@ -44,10 +43,10 @@ const ProductCard = ({ product }) => {
             {product.name}
           </Text>
           <Text style={{ fontWeight: "600", fontSize: 14, color: "gray", marginLeft: 20 }} numberOfLines={1}>
-            brand1
+            {product.brand}
           </Text>
           <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>
-            price
+            {product.price}
           </Text>
         </View>
       </View>
