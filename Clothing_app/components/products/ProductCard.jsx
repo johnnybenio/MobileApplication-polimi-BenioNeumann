@@ -31,21 +31,24 @@ const ProductCard = ({ product }) => {
             style={{
               aspectRatio: 1,
               position: "absolute",
-              width: "100%",
+              width: "30%",
               height: "100%",
               alignItems: "center",
+              borderRadius: 10,
+              marginLeft: 60,
+
             }} resizeMode='contain'
           />
         </View>
 
         <View style={{ padding: 12 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 22, marginBottom: 5, marginLeft: 20 }} numberOfLines={1}>
+          <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 5, marginLeft: -40 }} numberOfLines={3}>
             {product.name}
           </Text>
-          <Text style={{ fontWeight: "600", fontSize: 14, color: "gray", marginLeft: 20 }} numberOfLines={1}>
+          <Text style={{ fontWeight: "600", fontSize: 14, color: "gray", marginLeft: -40 }} numberOfLines={3}>
             {product.brand}
           </Text>
-          <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 20 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: -40 }}>
             {product.price}
           </Text>
         </View>
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     overflow: "hidden",
-    borderRadius: 12,
+    borderRadius: 15
 
   },
   heartIconContainer: {

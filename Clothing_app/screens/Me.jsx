@@ -5,7 +5,7 @@ import React from 'react'
 
 const Me = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <View>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 10 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Alex & John's </Text>

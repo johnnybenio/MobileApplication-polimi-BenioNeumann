@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import apiUrl from '../config';
 
 const useFetch = () => {
     const [data, setData] = useState([]);
@@ -11,7 +12,7 @@ const useFetch = () => {
         setIsLoading(true)
 
         try {
-            const response = await axios.get('https://190b-37-119-209-132.ngrok-free.app/api/products', {
+            const response = await axios.get(`${apiUrl}/api/products`, {
                 headers: {
                     'ngrok-skip-browser-warning': 'true'
                 }
@@ -19,7 +20,6 @@ const useFetch = () => {
 
             setData(response.data)
             setIsLoading(false)
-
         } catch (err) {
             setError(err)
         } finally {

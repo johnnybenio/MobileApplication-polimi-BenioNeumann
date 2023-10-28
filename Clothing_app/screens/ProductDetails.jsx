@@ -28,7 +28,7 @@ const ProductDetails = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+        <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
             <View style={{
                 marginHorizontal: 20,
                 flexDirection: "row",
@@ -60,16 +60,17 @@ const ProductDetails = ({ navigation }) => {
                 />
             ) : (
                 <Image
-                    source={{uri: product.imageURL}}
+                    source={{ uri: product.imageURL }}
                     style={{
                         aspectRatio: 1,
                         position: "absolute",
                         width: "100%",
-                        height: "80%",
-                        bottom: "20%",
+                        height: "100%",
+                        bottom: "10%",
                         alignItems: "center",
+
                     }}
-                    resizeMode='cover'
+                    resizeMode='contain'
                 />
             )}
 

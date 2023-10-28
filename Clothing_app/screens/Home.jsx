@@ -8,7 +8,7 @@ import ProductAligner from '../components/products/ProductAligner'
 
 const Home = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <View>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 10 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Alex & John's </Text>

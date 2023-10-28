@@ -15,11 +15,13 @@ const barOptions = {
     tabBarHideOnKeyboard: true,
     headerShown: false,
     tabBarStyle: {
-        height: 70
+        height: 80,
+        backgroundColor: "white"
     },
     tabBarBackground: () => (
         <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />
     ),
+    color: "white"
 }
 
 const styles = StyleSheet.create({
@@ -43,7 +45,7 @@ const Bar = createBottomTabNavigator();
 /* Create navigation bar, if component is selected, make it focused icon */
 const BottomNavigationBar = () => {
     return (
-        <Bar.Navigator screenOptions={barOptions}>
+        <Bar.Navigator screenOptions={barOptions} >
             <Bar.Screen name="Home" component={Home} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons
