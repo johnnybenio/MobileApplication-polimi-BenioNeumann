@@ -16,7 +16,7 @@ const port = process.env.PORT || undefined;
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: '*', // Allow requests from this origin
+    origin: '*', // Allow requests from any origin
 }));
 
 // Connect to MongoDB
