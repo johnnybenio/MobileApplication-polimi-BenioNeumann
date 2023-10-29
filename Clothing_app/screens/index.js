@@ -4,6 +4,6 @@ import Cart from "./Cart";
 import Me from "./Me";
 import Favorite from "./Favorite";
 import ProductDetails from "./ProductDetails";
-import ProductArray from "../components/products/ProductArray"
+import ProductCollection from "../components/products/ProductCollection"
 
-export { Home, Search, Cart, Me, Favorite, ProductDetails, ProductArray }
+export { Home, Search, Cart, Me, Favorite, ProductDetails, ProductCollection }

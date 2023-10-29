@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import axios from "axios"
 import SearchRow from '../components/products/SearchRow';
 import apiUrl from '../config';
-import ProductCollection from './ProductCollection';
+import ProductArray from '../components/products/ProductCollection';
 
 const Search = () => {
   const [searchState, setSearchState] = useState('')
@@ -110,7 +110,7 @@ const Search = () => {
       </View>
       {retrievedData === undefined
         ? (
-          <ProductCollection />
+          <ProductArray />
         )
         : retrievedData.length === 0
           ? (
