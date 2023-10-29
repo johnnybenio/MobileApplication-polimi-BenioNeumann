@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native"
 const SearchRow = ({ product }) => {
     // To navigate from a child componanent and pass the product information 
     const navigator = useNavigation()
-
     return (
         <View>
             <TouchableOpacity onPress={() => navigator.navigate('ProductDetails', { product })} style={{

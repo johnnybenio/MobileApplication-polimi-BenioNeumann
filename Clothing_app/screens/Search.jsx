@@ -124,8 +124,12 @@ const Search = () => {
         )
         : retrievedData.length === 0
           ? (
-            <View style={{ flex: 1 }}>
-              <Image source={require('../assets/images/error_404.jpeg')} style={{ marginTop: 100 }} />
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <Image source={require('../assets/images/error_404.jpg')} style={[
+                Platform.OS === 'web'
+                  ? { width: '30%', height: '100%', marginTop: 50 }
+                  : { marginTop: 100 }
+              ]} />
             </View>
           )
           : <FlatList

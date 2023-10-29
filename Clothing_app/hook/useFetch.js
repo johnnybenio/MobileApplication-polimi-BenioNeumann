@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { apiUrl } from '../config';
@@ -10,14 +10,12 @@ const useFetch = () => {
 
     const fetchData = async () => {
         setIsLoading(true)
-
         try {
             const response = await axios.get(`${apiUrl}/api/products`, {
                 headers: {
                     'ngrok-skip-browser-warning': 'true'
                 }
             });
-
             setData(response.data)
             setIsLoading(false)
         } catch (err) {

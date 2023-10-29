@@ -11,7 +11,7 @@ const ProductCollection = () => {
         ? (
             <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center", alignContent: "center" }}>
-                    <ActivityIndicator size={5} color="blue" />
+                    <ActivityIndicator size={3} color="blue" />
                 </View>
             </SafeAreaView>
         )
