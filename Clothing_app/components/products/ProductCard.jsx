@@ -55,16 +55,16 @@ const ProductCard = ({ pageType, product }) => {
               height: "100%",
               alignItems: "center",
               borderRadius: 10,
-              marginLeft: Platform.OS === 'web' ? -90 : -15,
+              marginLeft: Platform.OS === 'web' ? -60 : -15,
             }} resizeMode='contain'
           />
         </View>
 
         <View style={{ padding: 12 }}>
-          <Text style={{ fontWeight: "bold", fontSize: Platform.OS === 'web' ? 30 : 10, marginBottom: 5, marginLeft: -40 }} numberOfLines={2}>
+          <Text style={{ fontWeight: "bold", fontSize: Platform.OS === 'web' ? 20 : 9, marginBottom: 5, marginLeft: -40 }} numberOfLines={3}>
             {product.name}
           </Text>
-          <Text style={{ fontWeight: "600", fontSize: Platform.OS === 'web' ? 20 : 10, color: "gray", marginLeft: -40 }} numberOfLines={2}>
+          <Text style={{ fontWeight: "600", fontSize: Platform.OS === 'web' ? 20 : 10, color: "gray", marginLeft: -40 }}>
             {product.brand}
           </Text>
           <Text style={{ fontWeight: "bold", fontSize: Platform.OS === 'web' ? 20 : 10, marginLeft: -40 }}>
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center", // This centers the content horizontally
     justifyContent: "center", // This centers the content vertically
+
     ...Platform.select({
       web: {
         width: 400,

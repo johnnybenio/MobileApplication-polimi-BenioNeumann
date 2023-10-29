@@ -5,6 +5,7 @@ import React from 'react'
 import { ScrollView } from 'react-native'
 import Welcome from '../components/home/Welcome'
 import ProductAligner from '../components/products/ProductAligner'
+import { Platform } from 'react-native'
 
 const Home = () => {
   let visibleIndexCounter = 0;
@@ -19,7 +20,7 @@ const Home = () => {
       <ScrollView>
         <Welcome />
         <ProductAligner visableIndexCounter={visibleIndexCounter} />
-        <ProductAligner visableIndexCounter={visibleIndexCounter + 3} />
+        <ProductAligner visableIndexCounter={Platform.OS === 'web' ? visibleIndexCounter + 3 : visibleIndexCounter + 2} />
       </ScrollView>
     </SafeAreaView>
   )
