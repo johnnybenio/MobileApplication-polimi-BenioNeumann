@@ -6,8 +6,9 @@ import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import axios from "axios"
 import SearchRow from '../components/products/SearchRow';
-import apiUrl from '../config';
+import { apiUrl } from '../config';
 import ProductArray from '../components/products/ProductCollection';
+import ProductCollection from '../components/products/ProductCollection';
 
 const Search = () => {
   const [searchState, setSearchState] = useState('')
@@ -15,33 +16,41 @@ const Search = () => {
   const [err, setError] = useState(null);
 
   const getDataOnSearch = async () => {
-    try {
-      const response = await axios.get(`https://540f-37-119-209-132.ngrok-free.app/api/products/search/${searchState}`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true'
-        }
-      });
-      setRetrievedData(response.data)
+    if (searchState === '') {
+      setRetrievedData(undefined);
+    }
+    else {
+      try {
+        const response = await axios.get(`${apiUrl}/api/products/search/${searchState}`, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
+        setRetrievedData(response.data)
 
-    } catch (err) {
-      setError(err)
+      } catch (err) {
+        setError(err)
+      }
     }
   }
 
   const handleSearch = async ({ }) => {
-
-    try {
-      const response = await axios.get(`${apiUrl}/api/products/search/${searchState}`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true'
-        }
-      });
-      setRetrievedData(response.data)
-
-    } catch (err) {
-      setError(err)
+    if (searchState === '') {
+      setRetrievedData(undefined);
     }
+    else {
+      try {
+        const response = await axios.get(`${apiUrl}/api/products/search/${searchState}`, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
+        setRetrievedData(response.data)
 
+      } catch (err) {
+        setError(err)
+      }
+    }
   };
 
   return (
@@ -58,7 +67,7 @@ const Search = () => {
         alignContent: "center",
         borderRadius: 2,
         marginVertical: 16,
-        marginHorizontal: 10
+        marginHorizontal: 10,
       }}>
         <TouchableOpacity onPress={() => getDataOnSearch()} on>
           <Feather
@@ -110,7 +119,7 @@ const Search = () => {
       </View>
       {retrievedData === undefined
         ? (
-          <ProductArray />
+          <ProductCollection />
         )
         : retrievedData.length === 0
           ? (

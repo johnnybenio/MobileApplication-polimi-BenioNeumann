@@ -3,8 +3,12 @@ import React from 'react'
 import ProductCard from './ProductCard'
 import useFetch from '../../hook/useFetch'
 
-const ProductAligner = () => {
+const ProductAligner = ({ visableIndexCounter }) => {
+    let visibleData;
     const { data, isLoading, err } = useFetch()
+    if (!isLoading) {
+        visibleData = data.slice(visableIndexCounter, visableIndexCounter + 3);
+    }
 
     return (
         <View style={{ marginTop: 20 }}>
@@ -14,9 +18,9 @@ const ProductAligner = () => {
                 <Text style={{ fontWeight: 'bold' }}>Error</Text>
             ) : (
                 <FlatList
-                    data={data}
+                    data={visibleData}
                     keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => <ProductCard product={item} />}
+                    renderItem={({ item }) => <ProductCard pageType="Home" product={item} />}
                     horizontal={true}
                     contentContainerStyle={{ columnGap: -50 }}
                 />

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
-import apiUrl from '../config';
+import { apiUrl } from '../config';
 
 const useFetch = () => {
     const [data, setData] = useState([]);

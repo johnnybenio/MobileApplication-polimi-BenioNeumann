@@ -7,6 +7,7 @@ import Welcome from '../components/home/Welcome'
 import ProductAligner from '../components/products/ProductAligner'
 
 const Home = () => {
+  let visibleIndexCounter = 0;
   return (
     <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <View>
@@ -17,7 +18,8 @@ const Home = () => {
       </View>
       <ScrollView>
         <Welcome />
-        <ProductAligner />
+        <ProductAligner visableIndexCounter={visibleIndexCounter} />
+        <ProductAligner visableIndexCounter={visibleIndexCounter + 3} />
       </ScrollView>
     </SafeAreaView>
   )
