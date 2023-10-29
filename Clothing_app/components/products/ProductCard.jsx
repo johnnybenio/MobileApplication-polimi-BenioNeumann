@@ -9,20 +9,18 @@ const ProductCard = ({ pageType, product }) => {
   let marginEndValue = 0;
 
   if (pageType === "Home" && Platform.OS === 'web') {
-    console.log("WEB")
     marginEndValue = 20;
     marginLeftValue = 20;
   }
 
   else if (pageType === "Home") {
-    console.log("PHONE")
     marginLeftValue = 25;
     marginEndValue = 20;
   }
 
   else if (pageType === "Search") {
-    marginLeftValue = 30;
-    marginEndValue = 30;
+    marginLeftValue = 0;
+    marginEndValue = 0;
   }
 
   const navigation = useNavigation();
@@ -56,7 +54,7 @@ const ProductCard = ({ pageType, product }) => {
               alignItems: "center",
               borderRadius: 10,
               marginLeft: Platform.OS === 'web' ? -60 : -15,
-            }} resizeMode='contain'
+            }} resizeMode='center'
           />
         </View>
 
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center", // This centers the content horizontally
     justifyContent: "center", // This centers the content vertically
-
     ...Platform.select({
       web: {
         width: 400,
@@ -90,8 +87,8 @@ const styles = StyleSheet.create({
         left: 105
       },
       default: {
-        width: 180,
-        height: 180
+        width: 190,
+        height: 380
       },
     })
   },

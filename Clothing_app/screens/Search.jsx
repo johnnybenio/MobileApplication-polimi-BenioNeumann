@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Image, Platform } from 'react-native'
+import { FlatList, StyleSheet, Image, Platform, ImageBackground } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import { Feather } from "@expo/vector-icons";
@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 import axios from "axios"
 import SearchRow from '../components/products/SearchRow';
 import { apiUrl } from '../config';
-import ProductArray from '../components/products/ProductCollection';
 import ProductCollection from '../components/products/ProductCollection';
 
 const Search = () => {
@@ -55,11 +54,13 @@ const Search = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 10 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 30 }}>Alex & John's </Text>
-          <Ionicons name='pricetag-outline' size={20} />
-        </View>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 10 }}>
+        <ImageBackground source={require('../assets/images/jaguar.jpg')} resizeMode="cover" style={{ width: "100%", height: "100%" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 30, textAlign: "center", color: "white" }}>Alex & John's </Text>
+            <Ionicons name='pricetag-outline' size={20} color={"white"} />
+          </View>
+        </ImageBackground>
       </View>
       <View style={{
         flexDirection: "row",
@@ -141,7 +142,7 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
   }
 });
 

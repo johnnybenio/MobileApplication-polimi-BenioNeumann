@@ -2,12 +2,16 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-nativ
 import React from 'react'
 import ProductCard from './ProductCard'
 import useFetch from '../../hook/useFetch'
+import { Platform } from 'react-native'
 
 const ProductAligner = ({ visableIndexCounter }) => {
     let visibleData;
     const { data, isLoading, err } = useFetch()
     if (!isLoading) {
-        visibleData = data.slice(visableIndexCounter, visableIndexCounter + 3);
+        Platform.OS === 'web' ?
+            visibleData = data.slice(visableIndexCounter, visableIndexCounter + 3)
+            : visibleData = data.slice(visableIndexCounter, visableIndexCounter + 2)
+
     }
 
     return (

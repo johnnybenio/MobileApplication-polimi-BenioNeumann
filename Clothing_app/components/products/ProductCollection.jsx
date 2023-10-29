@@ -22,7 +22,7 @@ const ProductCollection = () => {
                         <View style={{ alignItems: "center", paddingLeft: 0 }}>
                             <FlatList
                                 data={data}
-                                numColumns={2}
+                                numColumns={3}
                                 keyExtractor={(item) => item._id}
                                 renderItem={({ item }) => <ProductCard pageType="Search" product={item} />}
                                 contentContainerStyle={{ alignContent: "center" }}
@@ -31,12 +31,12 @@ const ProductCollection = () => {
                         </View>
                     </ScrollView>
                 ) : (
-                    <View style={{ alignItems: "center", paddingLeft: 0 }}>
+                    <View style={{ alignItems: "center" }}>
                         <FlatList
                             data={data}
                             numColumns={2}
                             keyExtractor={(item) => item._id}
-                            renderItem={({ item }) => <ProductCard product={item} />}
+                            renderItem={({ item }) => <ProductCard pageType="Search" product={item} />}
                             contentContainerStyle={{ alignContent: "center" }}
                             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                         />
