@@ -1,12 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native';
 import RollingText from "react-native-rolling-text";
 import RollingContent from 'react-native-rolling-bar';
 import Banner from './Banner';
 
 const Welcome = () => {
-  const navigation = useNavigation();
 
   return (
     <View style={{ width: "100%" }}>

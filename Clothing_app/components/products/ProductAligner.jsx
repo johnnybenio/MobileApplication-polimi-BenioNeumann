@@ -1,10 +1,18 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Text, View } from 'react-native'
 import React from 'react'
 import ProductCard from './ProductCard'
 import useFetch from '../../hook/useFetch'
+import { Platform } from 'react-native'
 
-const ProductAligner = () => {
+const ProductAligner = ({ visableIndexCounter }) => {
+    let visibleData;
     const { data, isLoading, err } = useFetch()
+
+    if (!isLoading) {
+        Platform.OS === 'web' ?
+            visibleData = data.slice(visableIndexCounter, visableIndexCounter + 3)
+            : visibleData = data.slice(visableIndexCounter, visableIndexCounter + 2)
+    }
 
     return (
         <View style={{ marginTop: 20 }}>
@@ -14,9 +22,9 @@ const ProductAligner = () => {
                 <Text style={{ fontWeight: 'bold' }}>Error</Text>
             ) : (
                 <FlatList
-                    data={data}
+                    data={visibleData}
                     keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => <ProductCard product={item} />}
+                    renderItem={({ item }) => <ProductCard pageType="Home" product={item} />}
                     horizontal={true}
                     contentContainerStyle={{ columnGap: -50 }}
                 />
