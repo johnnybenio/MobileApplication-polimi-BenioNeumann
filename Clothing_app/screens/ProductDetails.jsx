@@ -9,8 +9,7 @@ const ProductDetails = ({ navigation }) => {
 
     // To toggle the put product in favorite function
     const [isFavorite, setIsFavorite] = useState(false);
-    const [isAddedFromImage, setIsAddedToCartFromImage] = useState(false);
-    const [isAddedFromButtom, setIsAddedToCartFromButtom] = useState(false);
+    const [isAdded, setIsAddedToCart] = useState(false);
 
     const route = useRoute();
     const { product } = route.params;
@@ -19,13 +18,10 @@ const ProductDetails = ({ navigation }) => {
         setIsFavorite(!isFavorite);
     };
 
-    const toggleAddedToCartImage = () => {
-        setIsAddedToCartFromImage(!isAddedFromImage);
+    const toggleAddedToCart = () => {
+        setIsAddedToCart(!isAdded);
     };
 
-    const toggleAddedToCartFromButton = () => {
-        setIsAddedToCartFromButtom(!isAddedFromButtom);
-    };
 
     return (
         <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
@@ -95,8 +91,8 @@ const ProductDetails = ({ navigation }) => {
                     {Platform.OS === 'web' ?
                         (
                             <View style={{ marginLeft: '70%', flexDirection: "row", bottom: 400 }}>
-                                <TouchableOpacity onPress={toggleAddedToCartImage} style={{ marginRight: 10 }}>
-                                    <Ionicons name={isAddedFromImage ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
+                                <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
+                                    <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={toggleFavorite} >
                                     <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
@@ -105,8 +101,8 @@ const ProductDetails = ({ navigation }) => {
                         ) :
                         (
                             <View style={{ marginLeft: "80%", flexDirection: "row", top: 161 }}>
-                                <TouchableOpacity onPress={toggleAddedToCartImage} style={{ marginRight: 10 }}>
-                                    <Ionicons name={isAddedFromImage ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
+                                <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
+                                    <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={toggleFavorite} >
                                     <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
@@ -142,7 +138,7 @@ const ProductDetails = ({ navigation }) => {
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%" }}>
                     <TouchableOpacity onPress={() => {
-                        toggleAddedToCartFromButton()
+                        toggleAddedToCart()
                     }}
                         style=
                         {Platform.OS === 'web'
@@ -154,8 +150,8 @@ const ProductDetails = ({ navigation }) => {
                             : { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 12 }}> Add To Cart </Text>
 
                         {Platform.OS === 'web'
-                            ? <Ionicons name={isAddedFromButtom ? 'cart-sharp' : "cart-outline"} size={30} color={"white"} style={{ marginLeft: "2%" }} />
-                            : <Ionicons name={isAddedFromButtom ? 'cart-sharp' : "cart-outline"} size={30} color={"white"} style={{ marginLeft: "3%", bottom: "2%" }} />
+                            ? <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"white"} style={{ marginLeft: "2%" }} />
+                            : <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"white"} style={{ marginLeft: "3%", bottom: "2%" }} />
                         }
                     </TouchableOpacity>
                 </View>

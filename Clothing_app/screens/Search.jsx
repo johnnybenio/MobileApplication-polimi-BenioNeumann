@@ -136,9 +136,9 @@ const Search = () => {
             data={retrievedData}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => <SearchRow product={item} />}
+
           />
       }
-
     </SafeAreaView>
   )
 }

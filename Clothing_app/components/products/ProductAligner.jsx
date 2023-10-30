@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Text, View, ScrollView } from 'react-native'
 import React from 'react'
 import ProductCard from './ProductCard'
 import useFetch from '../../hook/useFetch'
@@ -26,11 +26,14 @@ const ProductAligner = ({ visableIndexCounter }) => {
                     keyExtractor={(item) => item._id}
                     renderItem={({ item }) => <ProductCard pageType="Home" product={item} />}
                     horizontal={true}
+                    scrollEnabled={false}
                     contentContainerStyle={{ columnGap: -50 }}
                 />
+
+
             )
             }
-        </View>
+        </View >
     )
 }
 
