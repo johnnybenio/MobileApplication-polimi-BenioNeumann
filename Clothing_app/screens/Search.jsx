@@ -1,8 +1,7 @@
 import { FlatList, StyleSheet, Image, Platform, ImageBackground } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
-import { Feather } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons'
+import { Feather, Ionicons } from "@expo/vector-icons";
 import React, { useState } from 'react'
 import axios from "axios"
 import SearchRow from '../components/products/SearchRow';

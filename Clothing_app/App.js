@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigationBar from './navigation/BottomNavigationBar'
-import { ProductDetails } from './screens';
+import { Login, Order, ProductDetails } from './screens';
 
 const Stack = createNativeStackNavigator() // Used to manage our navigation in the app
 
@@ -26,7 +26,20 @@ export default function App() {
           }}
         />
 
-        
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={Order}
+          options={{
+            headerShown: false,
+          }}
+        />
 
       </Stack.Navigator>
     </NavigationContainer >
