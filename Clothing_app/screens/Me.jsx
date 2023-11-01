@@ -63,7 +63,7 @@ const Me = ({ navigation }) => {
 
                   }} />
                 <Text style={{ fontWeight: "bold", color: "white", marginVertical: 5, marginTop: 15 }}>
-                  {userLoggedIn ? `Hello, Alexander` : "Please, log in"}
+                  {userLoggedIn ? `Hello, ${user.name}` : "Please, log in"}
                 </Text>
                 {userLoggedIn ?
                   (
@@ -79,7 +79,7 @@ const Me = ({ navigation }) => {
                         borderRadius: 8,
                         marginTop: 10
                       }}>
-                        alexanderneumannab@gmail.com
+                        `${user.email}`
                       </Text>
                     </View>
                   )
@@ -222,10 +222,3 @@ const Me = ({ navigation }) => {
 }
 
 export default Me
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-
-  }
-});
