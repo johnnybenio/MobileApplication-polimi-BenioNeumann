@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigationBar from './navigation/BottomNavigationBar'
-import { Login, Order, ProductDetails } from './screens';
+import { Login, Order, ProductDetails, Register } from './screens';
 
 const Stack = createNativeStackNavigator() // Used to manage our navigation in the app
 
@@ -33,6 +33,15 @@ export default function App() {
             headerShown: false,
           }}
         />
+
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerShown: false,
+          }}
+        />
+
         <Stack.Screen
           name="Order"
           component={Order}

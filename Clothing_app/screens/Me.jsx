@@ -1,11 +1,36 @@
-import { StyleSheet, Text, View, Image, Platform, ImageBackground, TouchableOpacity, Alert } from 'react-native'
+import { Text, View, Image, Platform, ImageBackground, TouchableOpacity, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect } from '@react-navigation/native'
+
 
 const Me = ({ navigation }) => {
+
   const [user, setUser] = useState(null)
   const [userLoggedIn, setUserLoggedIn] = useState(false)
+
+  useFocusEffect(
+    React.useCallback(() => {
+      checkLocalStorageAsync();
+    }, [])
+  );
+
+  const checkLocalStorageAsync = async () => {
+    try {
+      let userId = `user${JSON.parse(await AsyncStorage.getItem('id'))}`
+      let userExists = await AsyncStorage.getItem(userId)
+
+      if (userExists) {
+        setUser(JSON.parse(userExists))
+        setUserLoggedIn(true)
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   const useAlert = () => {
     const showAlert = (title, message, buttons) => {
@@ -17,19 +42,41 @@ const Me = ({ navigation }) => {
 
   let showAlert = useAlert()
 
-  const logout = () => {
-    showAlert(
-      "Logout",
-      "Are you sure you want to logout?",
-      [
-        {
-          text: "Logout", onPress: () => { }
-        },
-        {
-          text: "Cancel", onPress: () => { } // If cancel pressed do nothing 
-        },
-      ]
-    );
+  const logoutAsync = async () => {
+    if (Platform.OS !== 'web') {
+      showAlert(
+        "Logout",
+        "Are you sure you want to logout?",
+        [
+          {
+            text: "Logout", onPress: async () => {
+              if (userLoggedIn) {
+                if (user !== null) {
+                  await AsyncStorage.removeItem(`user${user._id}`);
+                  await AsyncStorage.removeItem('id');
+                }
+                setUserLoggedIn(false);
+                setUser(null);
+              }
+            },
+          },
+          {
+            text: "Cancel", onPress: () => { }
+          } // If cancel pressed do nothing 
+        ]
+      );
+    }
+    else {
+      if (userLoggedIn) {
+        if (user !== null) {
+          await AsyncStorage.removeItem(`user${user._id}`);
+          await AsyncStorage.removeItem('id');
+        }
+        setUserLoggedIn(false);
+        setUser(null);
+      }
+    }
+
   };
 
   return (
@@ -63,7 +110,7 @@ const Me = ({ navigation }) => {
 
                   }} />
                 <Text style={{ fontWeight: "bold", color: "white", marginVertical: 5, marginTop: 15 }}>
-                  {userLoggedIn ? `Hello, ${user.name}` : "Please, log in"}
+                  {userLoggedIn ? `Hello, ${user.username}` : "Please, log in"}
                 </Text>
                 {userLoggedIn ?
                   (
@@ -79,29 +126,44 @@ const Me = ({ navigation }) => {
                         borderRadius: 8,
                         marginTop: 10
                       }}>
-                        `${user.email}`
+                        {user.email}
                       </Text>
                     </View>
                   )
                   :
                   (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Login') }}>
-                      <View>
+                    <View>
+                      <TouchableOpacity onPress={() => { navigation.navigate('Login') }}>
+                        <View>
+                          <Text style={{
+                            fontWeight: 'bold',
+                            color: 'white',
+                            backgroundColor: '#007BFF',
+                            paddingVertical: 10,
+                            paddingHorizontal: 20,
+                            fontSize: 20,
+                            textAlign: 'center',
+                            borderRadius: 8,
+                            marginTop: 10
+                          }}>
+                            Login
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => { navigation.navigate('Register') }} >
                         <Text style={{
                           fontWeight: 'bold',
                           color: 'white',
                           backgroundColor: '#007BFF',
                           paddingVertical: 10,
                           paddingHorizontal: 20,
-                          fontSize: 16,
+                          fontSize: 20,
                           textAlign: 'center',
                           borderRadius: 8,
-                          marginTop: 10
-                        }}>
-                          Login to Your Account
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                          marginTop: 10,
+                        }}> Register</Text>
+                      </TouchableOpacity>
+                    </View>
                   )}
 
                 {userLoggedIn ?
@@ -162,7 +224,6 @@ const Me = ({ navigation }) => {
                               ? { marginTop: -1 }
                               : { marginTop: 10 }),
                             padding: 5,
-
                           }}>
                             Cart
                           </Text>
@@ -181,7 +242,7 @@ const Me = ({ navigation }) => {
                           <Text style={{
                             fontSize: 16,
                             color: 'lightgray',
-                            marginRight: "65%",
+                            marginRight: "66%",
                             fontWeight: 'bold',
                             lineHeight: 10,
                             ...(Platform.OS === 'web'
@@ -204,7 +265,7 @@ const Me = ({ navigation }) => {
                 {userLoggedIn ?
                   (
                     <View style={{ top: 25 }}>
-                      <TouchableOpacity onPress={() => { logout() }}>
+                      <TouchableOpacity onPress={() => { logoutAsync() }}>
                         <View style={{ flexDirection: "row" }}>
                           <Ionicons name="log-out" size={35} color={"white"} />
                           <Text style={{ marginTop: 6, color: "white", fontSize: 20 }}> Logout</Text>

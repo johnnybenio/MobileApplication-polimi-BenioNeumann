@@ -11,7 +11,7 @@ module.exports = {
                 // if item already exists in the cart and we want to add more of it then we increase the quantity by 1
                 if (existingItem) { existingItem.quantity += 1 } else { cart.items.push({ cartItem, quantity }) }
                 await cart.save();
-                res.status(200).json("The product has been added to your cart")
+                return res.status(200).json("The product has been added to your cart")
             }
             // if cart does not exists we create a new cart and add the item to the cart
             else {
@@ -19,10 +19,10 @@ module.exports = {
                     userId, products: [{ cartProduct, quantity: quantity }]
                 });
                 await newCart.save();
-                res.status(200).json("The product has been added to your cart")
+                return res.status(200).json("The product has been added to your cart")
             }
         } catch (err) {
-            res.status(500).json(err)
+            return res.status(500).json(err)
 
         }
     },
