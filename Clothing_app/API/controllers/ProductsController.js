@@ -8,10 +8,10 @@ module.exports = {
 
         try {
             await newProduct.save();
-            res.status(200).json({ messege: "Product created", product: newProduct });
+            return res.status(200).json({ messege: "Product created", product: newProduct });
         }
         catch (error) {
-            res.status(500).json({ message: `failed to create the product, error: ${error.message}` });
+            return res.status(500).json({ message: `failed to create the product, error: ${error.message}` });
         }
     },
 
@@ -19,10 +19,10 @@ module.exports = {
     getProducts: async (req, res) => {
         try {
             const products = await Product.find().sort({ createdAt: -1 })
-            res.status(200).json(products)
-        } 
+            return res.status(200).json(products)
+        }
         catch (error) {
-            res.status(500).json({ message: `Failed to get products, error: ${error.message}` })
+            return res.status(500).json({ message: `Failed to get products, error: ${error.message}` })
         }
     },
 
@@ -30,10 +30,10 @@ module.exports = {
     getProductById: async (req, res) => {
         try {
             const product = await Product.findById(req.params.id)
-            res.status(200).json(product)
-        } 
+            return res.status(200).json(product)
+        }
         catch (error) {
-            res.status(500).json({ message: `Failed to get product by ID, error: ${error.message}` })
+            return res.status(500).json({ message: `Failed to get product by ID, error: ${error.message}` })
         }
     },
 
@@ -55,10 +55,10 @@ module.exports = {
                     }
                 ]
             )
-            res.status(200).json(result)
-        } 
+            return res.status(200).json(result)
+        }
         catch (err) {
-            res.status(500).json({ message: "Failed to get products" })
+            return res.status(500).json({ message: "Failed to get products" })
         }
     }
 }

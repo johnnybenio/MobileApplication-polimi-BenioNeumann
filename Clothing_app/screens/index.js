@@ -5,5 +5,8 @@ import Me from "./Me";
 import Favorite from "./Favorite";
 import ProductDetails from "./ProductDetails";
 import ProductCollection from "../components/products/ProductCollection"
+import Login from "./Login";
+import Register from "./Register";
+import Order from "./Order";
 
-export { Home, Search, Cart, Me, Favorite, ProductDetails, ProductCollection }
+export { Home, Search, Cart, Me, Favorite, ProductDetails, ProductCollection, Login, Register, Order }

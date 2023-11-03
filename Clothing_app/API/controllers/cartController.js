@@ -1,6 +1,5 @@
 const CartModel = require("../models/CartRelation");
 
-
 module.exports = {
     addToCart: async (req, res) => {            // Adding items to shop cart
 

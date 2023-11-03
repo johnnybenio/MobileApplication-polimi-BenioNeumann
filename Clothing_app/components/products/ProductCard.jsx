@@ -5,22 +5,34 @@ import { useNavigation } from '@react-navigation/native'
 
 const ProductCard = ({ pageType, product }) => {
 
-  let marginLeftValue = 0;
-  let marginEndValue = 0;
+  let marginLeftValue;
+  let marginEndValue;
+  let widthValue;
+  let heightValue;
+  let leftValue;
 
-  if (pageType === "Home" && Platform.OS === 'web') {
+  if ((pageType === "Home" || pageType === "Search") && Platform.OS === 'web') {
     marginEndValue = 20;
     marginLeftValue = 20;
+    widthValue = 400;
+    heightValue = 420;
+    leftValue = 105;
   }
 
   else if (pageType === "Home") {
-    marginLeftValue = 25;
-    marginEndValue = 20;
+    marginLeftValue = 10;
+    marginEndValue = 40;
+    widthValue = 200;
+    heightValue = 380;
+    leftValue = -7;
   }
 
   else if (pageType === "Search") {
-    marginLeftValue = 0;
-    marginEndValue = 0;
+    marginLeftValue = 10;
+    marginEndValue = 5;
+    widthValue = 180;
+    heightValue = 380;
+    leftValue = 3;
   }
 
   const navigation = useNavigation();
@@ -34,7 +46,13 @@ const ProductCard = ({ pageType, product }) => {
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate("ProductDetails", { product })}>
-      <View style={[styles.productCardContainer, { marginEnd: marginEndValue, marginLeft: marginLeftValue }]}>
+      <View style={[styles.productCardContainer, {
+        marginEnd: marginEndValue,
+        marginLeft: marginLeftValue,
+        width: widthValue,
+        height: heightValue,
+        left: leftValue
+      }]}>
         <TouchableOpacity onPress={toggleFavorite}>
           <Ionicons
             name={isFavorite ? "heart-sharp" : "heart-outline"}
@@ -53,7 +71,7 @@ const ProductCard = ({ pageType, product }) => {
               height: "100%",
               alignItems: "center",
               borderRadius: 10,
-              marginLeft: Platform.OS === 'web' ? -60 : -15,
+              marginLeft: Platform.OS === 'web' ? -60 : -5,
             }} resizeMode='center'
           />
         </View>
@@ -70,8 +88,8 @@ const ProductCard = ({ pageType, product }) => {
           </Text>
         </View>
       </View>
-
     </TouchableOpacity>
+
   )
 }
 
@@ -80,6 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center", // This centers the content horizontally
     justifyContent: "center", // This centers the content vertically
+    /*
     ...Platform.select({
       web: {
         width: 400,
@@ -87,10 +106,9 @@ const styles = StyleSheet.create({
         left: 105
       },
       default: {
-        width: 190,
-        height: 380
-      },
-    })
+        width: 200, 
+        height: 380 
+    */
   },
   productCardImageContainer: {
     flex: 1,
@@ -101,7 +119,7 @@ const styles = StyleSheet.create({
   heartIconContainer: {
     position: "relative", // Position the heart icon absolutely
     top: 0, // Place it at the top
-    left: 30, // Place it at the right
+    left: 50, // Place it at the right
     padding: 10, // Add some padding for spacing
   },
 })
