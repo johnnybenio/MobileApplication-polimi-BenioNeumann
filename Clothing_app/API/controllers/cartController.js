@@ -2,8 +2,8 @@ const CartModel = require("../models/CartRelation");
 
 module.exports = {
     addToCart: async (req, res) => {            // Adding items to shop cart
-
-        const {userId, cartProduct, quantity} = req.body;
+        const userId = req.user.id
+        const {cartProduct, quantity} = req.body;
 
         try {
             const cart = (await CartModel.find({userId: userId}))[0]
@@ -30,7 +30,7 @@ module.exports = {
 
     },
     retrieveCart: async (req, res) => {
-        const userId = req.params.id;
+        const userId = req.user.id;
 
         try {
             const cart = await CartModel.find({userId: userId}).populate("items.cartProduct", "_id name price brand imageURL");

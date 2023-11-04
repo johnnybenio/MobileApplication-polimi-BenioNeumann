@@ -22,6 +22,7 @@ const Login = ({ navigation }) => {
 
         await AsyncStorage.setItem(`user${response.data._id}`, JSON.stringify(response.data));
         await AsyncStorage.setItem('id', JSON.stringify(response.data._id));
+        await AsyncStorage.setItem('token', JSON.stringify(response.data.token));
         setIsLoading(false)
         navigation.navigate('Me');
       }

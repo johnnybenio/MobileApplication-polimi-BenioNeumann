@@ -2,10 +2,42 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'rea
 import React from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Platform } from 'react-native'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRoute } from '@react-navigation/native'
+import addToCart from '../hook/addToCart'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const ProductDetails = ({ navigation }) => {
+
+    const [count, SetCount] = useState(1);
+    const [userIn, setUserIn] = useState(false);
+
+    const increase = () => {        // increase the number of items in the cart
+        SetCount(count + 1);        // decrease the number of items in the cart
+    }
+    const decrease = () => {
+        if(count > 1){SetCount(count - 1);}
+    };
+
+    const controlUser = async () => {
+        try {
+            console.log(userIn)
+            const userId = await AsyncStorage.getItem("id")
+            if (userId !== null){
+                setUserIn(true);
+                console.log(userIn)
+            }
+            else{
+                console.log("The user is not logged in")
+
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        controlUser();
+    }, []);
 
     // To toggle the put product in favorite function
     const [isFavorite, setIsFavorite] = useState(false);
@@ -15,14 +47,31 @@ const ProductDetails = ({ navigation }) => {
     const { product } = route.params;
 
     const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+        controlUser();
+        if(userIn){
+            setIsFavorite(!isFavorite);
+        }else{
+            navigation.navigate('Login')
+        }
     };
 
     const toggleAddedToCart = () => {
-        setIsAddedToCart(!isAdded);
+        controlUser();
+        if(userIn){
+            if(isAdded === false){
+                addToCart(product._id, count);
+                setIsAddedToCart(true);
+
+            }
+            else{
+                setIsAddedToCart(false);
+            }
+        }
+        else{
+            navigation.navigate('Login')
+        }
     };
-
-
+    
     return (
         <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
             <View style={{
@@ -75,8 +124,6 @@ const ProductDetails = ({ navigation }) => {
                 width: "100%",
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12,
-
-
             }}>
                 <View
                     style={{
@@ -94,7 +141,7 @@ const ProductDetails = ({ navigation }) => {
                                 <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
                                     <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={toggleFavorite} >
+                                <TouchableOpacity onPress={toggleFavorite}>
                                     <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
                             </View>
@@ -104,7 +151,7 @@ const ProductDetails = ({ navigation }) => {
                                 <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
                                     <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={toggleFavorite} >
+                                <TouchableOpacity onPress= {toggleFavorite} >
                                     <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
                             </View>
@@ -137,13 +184,12 @@ const ProductDetails = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%" }}>
-                    <TouchableOpacity onPress={() => {
-                        toggleAddedToCart()
-                    }}
+                    <TouchableOpacity onPress={toggleAddedToCart}
                         style=
                         {Platform.OS === 'web'
                             ? { flexDirection: "row", backgroundColor: "black", width: "20%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }
                             : { flexDirection: "row", backgroundColor: "black", width: "55%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }}>
+
 
                         <Text style={Platform.OS === 'web'
                             ? { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 30 }
@@ -155,6 +201,36 @@ const ProductDetails = ({ navigation }) => {
                         }
                     </TouchableOpacity>
                 </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "90%" }}>
+                    <TouchableOpacity onPress={() => increase()}
+                        style={Platform.OS === 'web'
+                            ? { flexDirection: "row", backgroundColor: "black", width: "5%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }
+                            : { flexDirection: "row", backgroundColor: "black", width: "55%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }}>
+
+                        <Text style={Platform.OS === 'web'
+                            ? { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: "40%" }
+                            : { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 12 }}>+</Text>
+                    </TouchableOpacity>
+
+                    <Text>{count}</Text>
+
+                    <TouchableOpacity onPress={() => decrease()}
+                        style={Platform.OS === 'web'
+                            ? { flexDirection: "row", backgroundColor: "black", width: "5%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }
+                            : { flexDirection: "row", backgroundColor: "black", width: "55%", padding: 12, borderRadius: 24, marginLeft: 12, marginTop: 7 }}>
+
+                        <Text style={Platform.OS === 'web'
+                            ? { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: "40%" }
+                            : { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 12 }}>-</Text>
+                    </TouchableOpacity>
+                </View>
+
+
+
+
+
+
             </View>
         </ScrollView >
     )
