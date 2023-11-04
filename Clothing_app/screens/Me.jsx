@@ -1,13 +1,12 @@
 import { Text, View, Image, Platform, ImageBackground, TouchableOpacity, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 
 
 const Me = ({ navigation }) => {
-
   const [user, setUser] = useState(null)
   const [userLoggedIn, setUserLoggedIn] = useState(false)
 

@@ -18,10 +18,10 @@ const Login = ({ navigation }) => {
 
       const response = await axios.post(url, values)
       if (response.status === 200) {
-        setErrorMessage(null);
 
         await AsyncStorage.setItem(`user${response.data._id}`, JSON.stringify(response.data));
         await AsyncStorage.setItem('id', JSON.stringify(response.data._id));
+        setErrorMessage(null);
         setIsLoading(false)
         navigation.navigate('Me');
       }
@@ -29,6 +29,7 @@ const Login = ({ navigation }) => {
     }
     catch (err) {
       setIsLoading(false)
+      console.log(err)
       setErrorMessage('An error occurred. Please try again.');
     }
   }
@@ -204,8 +205,6 @@ const Login = ({ navigation }) => {
         </View>
       </ImageBackground >
     </View>
-
-
   )
 }
 

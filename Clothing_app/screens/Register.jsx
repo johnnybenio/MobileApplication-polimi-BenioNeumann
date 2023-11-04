@@ -8,7 +8,6 @@ import { apiUrl } from '../config';
 
 const Register = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [userDataRetrieved, setUserDataRetrieved] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
 
     const registerUserAsync = async (values) => {
