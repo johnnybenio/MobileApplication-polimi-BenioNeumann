@@ -1,44 +1,83 @@
-// const ProductModel = require("../models/ProductModel");
 const CartModel = require("../models/CartRelation");
 
 module.exports = {
     addToCart: async (req, res) => {            // Adding items to shop cart
-        const { userId, cartItem, quantity } = req.body;
+        const userId = req.user.id
+        const {cartProduct, quantity} = req.body;
+
         try {
-            const cart = await CartModel.findOne({ userId })
-            if (cart) {           // if cart exists
-                const existingItem = cart.items.findOne((item) => item.cartProduct.toString() === cartItem);
-                // if item already exists in the cart and we want to add more of it then we increase the quantity by 1
-                if (existingItem) { existingItem.quantity += 1 } else { cart.items.push({ cartItem, quantity }) }
+            const cart = (await CartModel.find({userId: userId}))[0]
+            if(cart){
+                const existingProduct = cart.items.find((item) => item.cartProduct.toString() === cartProduct);
+
+                // if the product already exists
+                if(existingProduct){ existingProduct.quantity += 1}
+
+                // if the product didn't exists in the cart before
+                else{cart.items.push({cartProduct, quantity})}
+
                 await cart.save();
-                return res.status(200).json("The product has been added to your cart")
-            }
-            // if cart does not exists we create a new cart and add the item to the cart
-            else {
+                res.status(200).json("Product has been added to cart")
+            }else{
                 const newCart = new CartModel({
-                    userId, products: [{ cartProduct, quantity: quantity }]
-                });
+                    userId: userId, items:[{ cartProduct: cartProduct, quantity: quantity }]});
+                
                 await newCart.save();
-                return res.status(200).json("The product has been added to your cart")
-            }
+                res.status(200).json("Product has been added to cart")}
         } catch (err) {
-            return res.status(500).json(err)
-
+            res.status(500).json(err)
         }
+
     },
-    getCart: async (req, res) => {
-        const userId = req.params.id;
+    retrieveCart: async (req, res) => {
+        const userId = req.user.id;
+
         try {
+            const cart = await CartModel.find({userId: userId}).populate("items.cartProduct", "_id name price brand imageURL");
+            res.status(200).json(cart)
 
         } catch (err) {
-
+            res.status(500).json(err)
         }
     },
-    deleteCartItem: async (req, res) => {
-        const { userId, cartItem } = req.body;
+    deleteCartProduct: async (req, res) => {
+        const cartItemId = req.params.cartProductId;
+        try {
+            const updatedCart = await CartModel.findOneAndUpdate({"items._id": cartItemId},{$pull: {items: {_id: cartItemId}}},{new: true})    
+            if (!updatedCart){return res.status(404).json({messege: "Item was not found"})}
+
+            res.status(200).json(updatedCart)
+        } catch (err) {
+            res.status(500).json(err)            
+        }
+
     },
-    decrementCartItem: async (req, res) => {
-        const { userId, cartItem } = req.body;
+    decrementCartProduct: async (req, res) => {
+        const {userId, cartProduct} = req.body;
+
+        try {
+            const cart = (await CartModel.find({userId: userId}))[0];
+            if(!cart){return res.status(404).json("Cart was not found")}
+
+            const availableProduct = cart.items.find(
+                (item) => item.cartProduct.toString() === cartProduct);       // if true -> we have existing product
+            if(!availableProduct){return res.status(404).json("Product was not found")}
+            
+            // if we only have one product of the item we delete the product from the cart by filtering the item out of the cart
+            if(availableProduct.quantity === 1 ){cart.items = cart.items.filter((item) => item.cartProduct.toString() !== cartProduct)}
+            else{availableProduct.quantity -= 1;}
+            await cart.save();
+
+            if(availableProduct.quantity === 0){
+                await cart.updateOne({userId}, {$pull: {cartProduct}})}
+
+            res.status(200).json({messege: "Product has been updated"})
+                
+                
+        } catch (err) {
+            res.status(500).json(err)
+        }
+
     },
 }
 

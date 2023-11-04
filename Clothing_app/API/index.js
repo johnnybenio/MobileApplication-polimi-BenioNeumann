@@ -31,8 +31,8 @@ mongoDB.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopo
 
 
 app.use('/api/', authenticationRouter)
-//app.use('/api/cart/', cartRouter)
-//app.use('/api/orders/', orderRouter)
+app.use('/api/cart/', cartRouter)
+app.use('/api/orders/', orderRouter)
 app.use('/api/products/', productRouter) 
 app.use('/api/users/', userRouter)
 
