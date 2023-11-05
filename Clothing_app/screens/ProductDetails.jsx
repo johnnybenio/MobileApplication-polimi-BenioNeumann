@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, TouchableNativeFeedback } from 'react-native'
 import React from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Platform } from 'react-native'
@@ -16,28 +16,52 @@ const ProductDetails = ({ navigation }) => {
         SetCount(count + 1);        // decrease the number of items in the cart
     }
     const decrease = () => {
-        if(count > 1){SetCount(count - 1);}
+        if (count > 1) { SetCount(count - 1); }
     };
 
     const controlUser = async () => {
         try {
-            console.log(userIn)
             const userId = await AsyncStorage.getItem("id")
-            if (userId !== null){
+            if (userId !== null) {
                 setUserIn(true);
-                console.log(userIn)
             }
-            else{
-                console.log("The user is not logged in")
-
+            else {
+                setUserIn(false)
             }
         } catch (err) {
             console.log(err)
         }
     }
+
     useEffect(() => {
-        controlUser();
+        controlUser()
+        checkIfFavorite();
     }, []);
+
+    const checkIfFavorite = async () => {
+        const id = await AsyncStorage.getItem('id')
+        const userId = JSON.parse(id)
+        const favoriteId = `fav${userId}`
+
+        try {
+            const favorite_ = await AsyncStorage.getItem(favoriteId)
+
+
+            if (favorite_ !== null) {
+                const favorite = JSON.parse(favorite_)
+                if (favorite[product._id]) {
+
+                    setIsFavorite(true)
+                }
+            }
+            else {
+                setIsFavorite(false)
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    };
 
     // To toggle the put product in favorite function
     const [isFavorite, setIsFavorite] = useState(false);
@@ -46,44 +70,84 @@ const ProductDetails = ({ navigation }) => {
     const route = useRoute();
     const { product } = route.params;
 
-    const toggleFavorite = () => {
+
+
+    const toggleFavorite = async () => {
+        console.log("PRESSED")
         controlUser();
-        if(userIn){
-            setIsFavorite(!isFavorite);
-        }else{
+        if (userIn) {
+            handleFavorite()
+        } else {
             navigation.navigate('Login')
         }
     };
 
     const toggleAddedToCart = () => {
         controlUser();
-        if(userIn){
-            if(isAdded === false){
+        if (userIn) {
+            if (isAdded === false) {
                 addToCart(product._id, count);
                 setIsAddedToCart(true);
-
             }
-            else{
+            else {
                 setIsAddedToCart(false);
             }
         }
-        else{
+        else {
             navigation.navigate('Login')
         }
     };
-    
+
+    const handleFavorite = async () => {
+        const id = await AsyncStorage.getItem('id')
+        const userId = JSON.parse(id)
+        const favoriteId = `fav${userId}`
+
+        let product_ = {
+            name: product.name,
+            brand: product.brand,
+            _id: product._id,
+            price: product.price,
+            imageURL: product.imageURL
+        }
+
+        try {
+            const itemExists = await AsyncStorage.getItem(favoriteId)
+
+            let favorite_ = null;
+            if (itemExists) {
+                favorite_ = JSON.parse(itemExists)
+            }
+            else {
+                favorite_ = {}
+            }
+
+            if (favorite_[product._id]) {
+                delete favorite_[product._id]
+                setIsFavorite(false)
+            }
+            else {
+                favorite_[product._id] = product_
+                setIsFavorite(true)
+            }
+            await AsyncStorage.setItem(favoriteId, JSON.stringify(favorite_))
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
+        <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
             <View style={{
                 marginHorizontal: 20,
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-                position: "absolute",
-                top: 20,
-                width: "90%",
-                zIndex: 999
+                width: "100%",
+                marginTop: 15,
             }} >
+
                 <TouchableOpacity onPress={() => navigation.goBack()} >
                     <Ionicons name='arrow-back-outline' size={30} style={{ top: 15 }} />
                 </TouchableOpacity>
@@ -113,7 +177,6 @@ const ProductDetails = ({ navigation }) => {
                         height: "100%",
                         bottom: "10%",
                         alignItems: "center",
-
                     }}
                     resizeMode='contain'
                 />
@@ -147,11 +210,11 @@ const ProductDetails = ({ navigation }) => {
                             </View>
                         ) :
                         (
-                            <View style={{ marginLeft: "80%", flexDirection: "row", top: 161 }}>
+                            <View style={{ marginLeft: "80%", flexDirection: "row", top: 161, zIndex: 999 }}>
                                 <TouchableOpacity onPress={toggleAddedToCart} style={{ marginRight: 10 }}>
                                     <Ionicons name={isAdded ? 'cart-sharp' : "cart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress= {toggleFavorite} >
+                                <TouchableOpacity onPress={toggleFavorite} >
                                     <Ionicons name={isFavorite ? 'heart-sharp' : "heart-outline"} size={30} color={"red"} />
                                 </TouchableOpacity>
                             </View>
@@ -225,12 +288,6 @@ const ProductDetails = ({ navigation }) => {
                             : { fontWeight: "bold", fontSize: 20, color: "white", marginLeft: 12 }}>-</Text>
                     </TouchableOpacity>
                 </View>
-
-
-
-
-
-
             </View>
         </ScrollView >
     )

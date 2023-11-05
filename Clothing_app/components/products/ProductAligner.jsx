@@ -29,8 +29,6 @@ const ProductAligner = ({ visableIndexCounter }) => {
                     scrollEnabled={false}
                     contentContainerStyle={{ columnGap: -50 }}
                 />
-
-
             )
             }
         </View >

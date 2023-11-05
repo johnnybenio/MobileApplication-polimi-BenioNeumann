@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ProductCard = ({ pageType, product }) => {
-
   let marginLeftValue;
   let marginEndValue;
   let widthValue;
@@ -39,10 +40,111 @@ const ProductCard = ({ pageType, product }) => {
 
   // To toggle the put product in favorite function
   const [isFavorite, setIsFavorite] = useState(false);
+  const [userIn, setUserIn] = useState(false);
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+
+  const toggleFavorite = async () => {
+    controlUser();
+    if (userIn) {
+      handleFavorite()
+    } else {
+      navigation.navigate('Login')
+    }
   };
+
+  const controlUser = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("id")
+      if (userId !== null) {
+        setUserIn(true);
+      }
+      else {
+        setUserIn(false)
+        console.log("The user is not logged in")
+
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      controlUser()
+      checkIfFavorite()
+    }, [])
+  );
+
+  const checkIfFavorite = async () => {
+    const id = await AsyncStorage.getItem('id')
+    const userId = JSON.parse(id)
+    const favoriteId = `fav${userId}`
+
+    try {
+      const favorite_ = await AsyncStorage.getItem(favoriteId)
+      //console.log(favorite_)
+      if (favorite_ !== null) {
+        const favorite = JSON.parse(favorite_)
+        //console.log("FAVORITE:", favorite)
+        if (favorite[product._id] !== undefined) {
+          setIsFavorite(true)
+        }
+        else {
+          setIsFavorite(false)
+        }
+      }
+      else {
+        setIsFavorite(false)
+      }
+
+    }
+    catch (err) {
+      console.log(err)
+    }
+  };
+
+
+  const handleFavorite = async () => {
+
+    const id = await AsyncStorage.getItem('id')
+    const userId = JSON.parse(id)
+    const favoriteId = `fav${userId}`
+
+    let product_ = {
+      name: product.name,
+      brand: product.brand,
+      _id: product._id,
+      price: product.price,
+      imageURL: product.imageURL
+    }
+
+    try {
+      const itemExists = await AsyncStorage.getItem(favoriteId)
+
+      let favorite_ = null;
+      if (itemExists) {
+        favorite_ = JSON.parse(itemExists)
+      }
+      else {
+        favorite_ = {}
+      }
+
+      if (favorite_[product._id]) {
+        delete favorite_[product._id]
+        console.log("deleted from fav")
+        setIsFavorite(false)
+      }
+      else {
+        favorite_[product._id] = product_
+        console.log("Added to fav")
+        setIsFavorite(true)
+      }
+      await AsyncStorage.setItem(favoriteId, JSON.stringify(favorite_))
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate("ProductDetails", { product })}>
