@@ -153,7 +153,7 @@ const Favorite = ({ }) => {
                                         <Text style={{ fontWeight: "bold", fontSize: 15, marginLeft: 20 }}>{item.price}</Text>
                                     </View>
                                     <TouchableOpacity>
-                                        <Ionicons name="trash-bin-outline" color="red" onPress={() => delFavorite(item._id)} size={24}></Ionicons>                                
+                                        <Ionicons name="heart" color="red" onPress={() => delFavorite(item._id)} size={24}></Ionicons>                                
                                     </TouchableOpacity>
                                 </View>
                                 
