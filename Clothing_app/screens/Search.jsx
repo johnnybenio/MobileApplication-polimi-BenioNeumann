@@ -84,7 +84,7 @@ const Search = () => {
           backgroundColor: "white",
           marginRight: 20,
           borderRadius: 13,
-          height: 33
+          height: 33,
         }}>
           {Platform.OS === 'web' ? (
             <TextInput

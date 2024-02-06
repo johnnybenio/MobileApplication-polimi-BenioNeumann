@@ -31,7 +31,7 @@ const ProductCollection = () => {
                         </View>
                     </ScrollView>
                 ) : (
-                    <View style={{ alignItems: "center" }}>
+                    <View style={{ alignItems: "center", top: -50, height: "120%" }}>
                         <FlatList
                             data={data}
                             numColumns={2}
