@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, FlatList, Image, Platform, } from 'react-native'
+import { Text, View, ImageBackground, TouchableOpacity, FlatList, Image, Platform, } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -14,7 +14,7 @@ const Favorite = ({ }) => {
     useFocusEffect(
         React.useCallback(() => {
             controlUser();
-            checkIfFavorite();
+            checkIfThereAreFavorites();
         }, [userIn])
     );
 
@@ -33,21 +33,48 @@ const Favorite = ({ }) => {
         }
     }
 
-    const checkIfFavorite = async () => {
+    const checkIfThereAreFavorites = async () => {
         const id = await AsyncStorage.getItem('id')
         const userId = JSON.parse(id)
         const favoriteId = `fav${userId}`
-
         try {
             const favorite_ = await AsyncStorage.getItem(favoriteId)
             if (favorite_ !== null) {
                 const favorite = JSON.parse(favorite_)
                 const favorites = Object.values(favorite)
-
                 setFavorites(favorites)
             }
 
         } catch (err) {
+            console.log(err)
+        }
+    };
+
+    const delFavorite = async (pId) => {
+        const id = await AsyncStorage.getItem('id')
+        const userId = JSON.parse(id)
+        const favoriteId = `fav${userId}`
+        console.log(pId)
+        try {
+            const itemExists = await AsyncStorage.getItem(favoriteId)
+
+            let favorite_ = null;
+            if (itemExists) {
+                favorite_ = JSON.parse(itemExists)
+            }
+            else {
+                favorite_ = {}
+            }
+
+            if (favorite_[pId]) {
+                delete favorite_[pId]
+                setFavorites(false)
+                checkIfThereAreFavorites();
+            }
+           
+            await AsyncStorage.setItem(favoriteId, JSON.stringify(favorite_))
+        }
+        catch (err) {
             console.log(err)
         }
     };
@@ -86,7 +113,6 @@ const Favorite = ({ }) => {
                 <FlatList
                     data={favorites}
                     renderItem={({ item }) => {
-
                         return (
                             <TouchableOpacity onPress={() => navigation.navigate("ProductDetails", { product: item })}>
                                 <View style={{
@@ -126,7 +152,11 @@ const Favorite = ({ }) => {
                                         <Text style={{ fontWeight: "bold", fontSize: 15, marginLeft: 20 }}>{item.brand}</Text>
                                         <Text style={{ fontWeight: "bold", fontSize: 15, marginLeft: 20 }}>{item.price}</Text>
                                     </View>
+                                    <TouchableOpacity>
+                                        <Ionicons name="trash-bin-outline" color="red" onPress={() => delFavorite(item._id)} size={24}></Ionicons>                                
+                                    </TouchableOpacity>
                                 </View>
+                                
                             </TouchableOpacity>)
                     }
                     }
@@ -158,11 +188,9 @@ const Favorite = ({ }) => {
                                     Please log in to set favorites
                                 </Text>
                             </View>
-
                         </View>
                     </View></SafeAreaView>
             )
-
     )
 }
 
