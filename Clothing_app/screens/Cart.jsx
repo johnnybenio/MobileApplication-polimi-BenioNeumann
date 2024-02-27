@@ -1,9 +1,19 @@
-import { StyleSheet, Text, View, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
-import React from 'react'
+import React, {useState} from 'react'
+import retrieveCart from '../hook/retrieveCart'
+import CartTile from '../components/cart/cartTile'
+import { FlatList } from 'react-native'
+import { useEffect } from 'react'
 
 const Cart = () => {
+    const {data, isLoading, err, refetch} = retrieveCart();
+    const [selected, setSelected] = useState(null);
+    const [select, setSelect] = useState(false)
+    useEffect(() => {
+        refetch();
+      }, []);
     return (
         <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
             <View>
@@ -16,9 +26,21 @@ const Cart = () => {
                     </ImageBackground>
                 </View>
             </View>
+            {isLoading ? (<ActivityIndicator/>) : (
+            
+            <FlatList
+            data = {data}
+            
+            keyExtractor = {(item) => item._id} 
+            renderItem = {({item}) => <CartTile item={item} onPress={() => {setSelect(!select), setSelected(item)}} select={select} />}
+            
+            />)}
+
         </SafeAreaView>
     )
 }
+
+{select === false ? (<View></View>): (< Button title={'Checkout'} isValid={select} onPress={() => {}} />) }
 
 const styles = StyleSheet.create({
     cartCount: {

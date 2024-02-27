@@ -6,17 +6,22 @@ import { useState, useEffect } from 'react'
 import { useRoute } from '@react-navigation/native'
 import addToCart from '../hook/addToCart'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import retrieveCart from '../hook/retrieveCart'
+import deleteCartProduct from '../hook/deleteCartProduct';
+
 
 const ProductDetails = ({ navigation }) => {
 
     const [count, SetCount] = useState(1);
     const [userIn, setUserIn] = useState(false);
-
+    const {data, isLoading, err, refetch} = retrieveCart();
     const increase = () => {        // increase the number of items in the cart
         SetCount(count + 1);        // decrease the number of items in the cart
+        console.log(count);
     }
     const decrease = () => {
         if (count > 1) { SetCount(count - 1); }
+        console.log(count);
     };
 
     const controlUser = async () => {
@@ -34,9 +39,33 @@ const ProductDetails = ({ navigation }) => {
     }
 
     useEffect(() => {
-        controlUser()
+        controlUser();
         checkIfFavorite();
+        checkIfAddedToCart();
     }, []);
+
+    const checkIfAddedToCart = async () => {
+        const id = await AsyncStorage.getItem('id')
+        const userId = JSON.parse(id)
+        const cartId = `cart${userId}`
+
+        try{
+            const cart_ = await AsyncStorage.getItem(cartId)
+
+            if (cart_ !== null){
+                const cart = JSON.parse(cart_)
+                if(cart[product._id]){
+                    setIsAddedToCart(true)
+                }
+            }
+            else{
+                setIsAddedToCart(false)
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    };
 
     const checkIfFavorite = async () => {
         const id = await AsyncStorage.getItem('id')
@@ -45,7 +74,6 @@ const ProductDetails = ({ navigation }) => {
 
         try {
             const favorite_ = await AsyncStorage.getItem(favoriteId)
-
 
             if (favorite_ !== null) {
                 const favorite = JSON.parse(favorite_)
@@ -68,9 +96,9 @@ const ProductDetails = ({ navigation }) => {
     const [isAdded, setIsAddedToCart] = useState(false);
 
     const route = useRoute();
-    const { product } = route.params;
 
 
+    const { product } = route.params; 
 
     const toggleFavorite = async () => {
         console.log("PRESSED")
@@ -86,17 +114,58 @@ const ProductDetails = ({ navigation }) => {
         controlUser();
         if (userIn) {
             if (isAdded === false) {
-                addToCart(product._id, count);
                 setIsAddedToCart(true);
+                addToCart(product._id, count);
+                handleCart();
             }
             else {
                 setIsAddedToCart(false);
+                deleteCartProduct(product._id);
+                handleCart();
             }
         }
         else {
             navigation.navigate('Login')
         }
     };
+
+    const handleCart = async () => {
+        const id = await AsyncStorage.getItem('id')
+        const userId = JSON.parse(id)
+        const cartId = `cart${userId}`
+        let product_ = {
+            name: product.name,
+            brand: product.brand,
+            _id: product._id,
+            price: product.price,
+            imageURL: product.imageURL
+        }
+        try {
+            const itemExists = await AsyncStorage.getItem(cartId)
+
+            let cart_ = null;
+            if (itemExists) {
+                cart_ = JSON.parse(itemExists)
+                console.log(cart_)
+            }
+            else {
+                cart_ = {}
+            }
+
+            if (cart_[product._id]) {
+                delete cart_[product._id]
+                setIsAddedToCart(false)
+            }
+            else {
+                cart_[product._id] = product_
+                setIsAddedToCart(true)
+            }
+            await AsyncStorage.setItem(cartId, JSON.stringify(cart_))
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     const handleFavorite = async () => {
         const id = await AsyncStorage.getItem('id')

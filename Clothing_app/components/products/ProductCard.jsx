@@ -82,10 +82,8 @@ const ProductCard = ({ pageType, product }) => {
 
     try {
       const favorite_ = await AsyncStorage.getItem(favoriteId)
-      //console.log(favorite_)
       if (favorite_ !== null) {
         const favorite = JSON.parse(favorite_)
-        //console.log("FAVORITE:", favorite)
         if (favorite[product._id] !== undefined) {
           setIsFavorite(true)
         }

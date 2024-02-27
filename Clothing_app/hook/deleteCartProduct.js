@@ -2,15 +2,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiUrl } from '../config';
 import axios from "axios";
 
-const addToCart = async(productId, quantity) => {
+const deleteCartProduct = async (productId) => {
     try {
         const token = await AsyncStorage.getItem("token");
-        const endpoint = `${apiUrl}/api/cart`;
+        const endpoint = `${apiUrl}/api/cart/${productId}`; // Assuming the productId is used in the endpoint
 
-        const data = {
-            cartProduct: productId,
-            quantity: quantity
-        }
         const headers = {
             "Content-Type":"application/json",
             "token":"Bearer " + JSON.parse(token),
@@ -18,11 +14,10 @@ const addToCart = async(productId, quantity) => {
 
         };
 
-
-        await axios.post(endpoint, data, {headers})
+        await axios.delete(endpoint, { headers });
     } catch (err) {
-        throw new Error(err.messege)
+        throw new Error(err.message);
     }
 };
 
-export default addToCart;
+export default deleteCartProduct;

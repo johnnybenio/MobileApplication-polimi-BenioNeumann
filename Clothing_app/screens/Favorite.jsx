@@ -86,7 +86,6 @@ const Favorite = ({ }) => {
                 <FlatList
                     data={favorites}
                     renderItem={({ item }) => {
-
                         return (
                             <TouchableOpacity onPress={() => navigation.navigate("ProductDetails", { product: item })}>
                                 <View style={{
@@ -107,6 +106,7 @@ const Favorite = ({ }) => {
                                     }}>
                                         <Image
                                             source={{ uri: item.imageURL }}
+                                            
                                             style={{
                                                 aspectRatio: 1,
                                                 ...(Platform.OS === 'web' ? { width: "50%", height: "50%" } : { width: "150%", height: "150%" }),

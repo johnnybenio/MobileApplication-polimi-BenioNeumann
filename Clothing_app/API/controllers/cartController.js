@@ -40,12 +40,14 @@ module.exports = {
             res.status(500).json(err)
         }
     },
+
+
+    
     deleteCartProduct: async (req, res) => {
         const cartItemId = req.params.cartProductId;
         try {
-            const updatedCart = await CartModel.findOneAndUpdate({"items._id": cartItemId},{$pull: {items: {_id: cartItemId}}},{new: true})    
+            const updatedCart = await CartModel.findOneAndUpdate({"items.cartProduct": cartItemId},{$pull: {items: {cartProduct: cartItemId}}},{new: true})    
             if (!updatedCart){return res.status(404).json({messege: "Item was not found"})}
-
             res.status(200).json(updatedCart)
         } catch (err) {
             res.status(500).json(err)            

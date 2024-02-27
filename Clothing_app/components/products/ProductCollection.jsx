@@ -36,7 +36,8 @@ const ProductCollection = () => {
                             data={data}
                             numColumns={2}
                             keyExtractor={(item) => item._id}
-                            renderItem={({ item }) => <ProductCard pageType="Search" product={item} />}
+                            renderItem={({ item }) =>
+                                <ProductCard pageType="Search" product={item} />}
                             contentContainerStyle={{ alignContent: "center" }}
                             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                         />

@@ -8,5 +8,5 @@ import ProductCollection from "../components/products/ProductCollection"
 import Login from "./Login";
 import Register from "./Register";
 import Order from "./Order";
-
-export { Home, Search, Cart, Me, Favorite, ProductDetails, ProductCollection, Login, Register, Order }
+import CartTile from "../components/cart/cartTile";
+export { Home, Search, Cart, Me, Favorite, ProductDetails, ProductCollection, Login, Register, Order, CartTile }
