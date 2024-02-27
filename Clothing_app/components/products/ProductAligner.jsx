@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Text, View, ScrollView } from 'react-native'
+import { ActivityIndicator, FlatList, Text, View } from 'react-native'
 import React from 'react'
 import ProductCard from './ProductCard'
 import useFetch from '../../hook/useFetch'
